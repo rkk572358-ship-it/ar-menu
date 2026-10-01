@@ -7,6 +7,6 @@
   "scripts": {
     "dev": "npx --yes serve@14 . -l 3000",
     "dev:https": "npx --yes serve@14 . -l 3000",
-    "make-card": "python tools/make-card.py --url https://example.com/ar-menu/ --out assets/target/card.png"
+    "make-card": "python tools/make-card.py --url https://rkk572358-ship-it.github.io/ar-menu/ --out assets/target/card.png"
   }
 }

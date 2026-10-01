@@ -35,7 +35,7 @@ def load_font(size, bold=True):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--url", default="https://example.com/ar-menu/",
+    ap.add_argument("--url", default="https://rkk572358-ship-it.github.io/ar-menu/",
                     help="URL encoded in the card QR (use your GitHub Pages URL)")
     ap.add_argument("--out", default="assets/target/card.png")
     ap.add_argument("--seed", type=int, default=7)
