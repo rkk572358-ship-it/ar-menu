@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Compile targets.mind (offline helper)</title>
+<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:24px auto;padding:0 16px}#drop{border:2px dashed #888;border-radius:12px;padding:28px;text-align:center;margin:16px 0}button{padding:12px 20px;font-size:15px;margin-right:8px}#log{white-space:pre-wrap;background:#111;color:#0f0;padding:12px;border-radius:8px;min-height:120px}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","mindar-image-three":"https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"}}</script>
+</head>
+<body>
+<h1>AR MENU — compile <code>targets.mind</code></h1>
+<p>Use this page after regenerating the card (the QR changes the image, so the <code>.mind</code> must be rebuilt). 100% local in your browser.</p>
+<ol>
+  <li>Regenerate card: <code>python tools/make-card.py --url https://&lt;user&gt;.github.io/&lt;repo&gt;/</code></li>
+  <li>Drop the new <code>assets/target/card.png</code> below, click <b>Compile</b>.</li>
+  <li>Save the download as <code>assets/target/targets.mind</code>, commit &amp; push.</li>
+</ol>
+<div id="drop">Drop <b>card.png</b> here or <input type="file" id="file" accept="image/*" /></div>
+<button id="go">Compile</button>
+<a id="dl" style="display:none">Download targets.mind</a>
+<div id="log">waiting for image…</div>
+<script type="module">
+import { Compiler } from 'mindar-image-three';
+const log = (m) => document.getElementById('log').textContent += '\n' + m;
+let img = null;
+const load = (file) => new Promise((res, rej) => {
+  const i = new Image();
+  i.onload = () => res(i);
+  i.onerror = rej;
+  i.src = URL.createObjectURL(file);
+});
+document.getElementById('file').addEventListener('change', async (e) => {
+  img = await load(e.target.files[0]);
+  log('loaded ' + img.width + 'x' + img.height);
+});
+document.getElementById('go').addEventListener('click', async () => {
+  if (!img) { log('drop an image first'); return; }
+  log('compiling… (may take ~30s)');
+  const compiler = new Compiler();
+  await compiler.compileImageTargets([img], (p) => {
+    document.getElementById('log').textContent = 'progress: ' + p.toFixed(1) + '%';
+  });
+  const buf = compiler.exportData();
+  const blob = new Blob([buf]);
+  const a = document.getElementById('dl');
+  a.style.display = 'inline';
+  a.href = URL.createObjectURL(blob);
+  a.download = 'targets.mind';
+  log('done — ' + buf.byteLength + ' bytes. Click Download, save to assets/target/targets.mind');
+});
+</script>
+</body>
+</html>

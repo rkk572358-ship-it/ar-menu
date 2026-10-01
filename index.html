@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#141414" />
+<title>AR MENU — Browser AR Demo</title>
+<meta name="description" content="Zero-cost browser AR restaurant menu demo (MindAR + Three.js). Point your phone at the printed card." />
+<link rel="stylesheet" href="./css/style.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+    "mindar-image-three": "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
+  }
+}
+</script>
+</head>
+<body>
+  <div id="ar-container" aria-label="AR camera view"></div>
+
+  <!-- Scanning hint: shown while target not detected -->
+  <div id="scan-hint" class="pill hidden">
+    <span class="pulse"></span>
+    <span>Point your camera at the <b>&nbsp;AR MENU card&nbsp;</b> to begin</span>
+  </div>
+
+  <!-- Toast for small messages -->
+  <div id="toast" class="pill hidden"></div>
+
+  <!-- Target-lost banner -->
+  <div id="lost-banner" class="pill hidden">Card lost — point at the card again</div>
+
+  <!-- Back / reset control (screen-space, always reachable) -->
+  <button id="back-btn" class="hidden" type="button">← Back to menu</button>
+
+  <!-- Dish label shown in 3D state (screen-space caption, AR object stays anchored) -->
+  <div id="dish-caption" class="hidden">
+    <strong>Royal Burger · ₹249</strong>
+    <span>Crispy patty, cheese, house sauce — drag to spin · pinch to zoom</span>
+  </div>
+
+  <!-- Start / permission overlay -->
+  <div id="start-overlay">
+    <div class="card">
+      <div class="brand">AR MENU</div>
+      <p class="sub">Browser-based AR restaurant menu · zero-cost demo</p>
+      <ol class="steps">
+        <li>Tap <b>Start AR</b> and allow camera access.</li>
+        <li>Point your phone at the printed <b>AR MENU card</b>.</li>
+        <li>Tap <b>Royal Burger</b> to see it in 3D on your table.</li>
+      </ol>
+      <button id="start-btn" type="button">Start AR 📷</button>
+      <p id="start-error" class="error hidden"></p>
+      <p class="fine">HTTPS + camera permission required. No backend, no tracking, no data leaves your phone except CDN library loads.</p>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loading" class="hidden"><div class="spinner"></div><p>Starting camera…</p></div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

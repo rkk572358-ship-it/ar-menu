@@ -1,0 +1,12 @@
+{
+  "name": "ar-menu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Zero-cost browser AR restaurant menu (MindAR + Three.js), static only.",
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes serve@14 . -l 3000",
+    "dev:https": "npx --yes serve@14 . -l 3000",
+    "make-card": "python tools/make-card.py --url https://example.com/ar-menu/ --out assets/target/card.png"
+  }
+}
